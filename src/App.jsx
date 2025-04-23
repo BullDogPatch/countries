@@ -20,14 +20,20 @@ function App() {
 
   const filteredCountries = query
     ? countries.filter((country) =>
-        country.name.common.toLowerCase().includes(query)
+        country.name.common.toLowerCase().includes(query.toLowerCase())
       )
     : [];
+
+  const exactMatch = countries.find(
+    (country) => country.name.common.toLowerCase() === query.toLowerCase()
+  );
 
   return (
     <>
       <Input query={query} onChange={(e) => setQuery(e.target.value)} />
-      <Countries filteredCountries={filteredCountries} />
+      <Countries
+        filteredCountries={exactMatch ? [exactMatch] : filteredCountries}
+      />
     </>
   );
 }
