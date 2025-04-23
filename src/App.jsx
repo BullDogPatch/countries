@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import './App.css';
+import Country from './components/Country';
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -13,14 +14,13 @@ function App() {
       const data = await response.json();
       setCountries(data);
     };
-    console.log(countries);
     fetchCountries();
   }, []);
 
   return (
     <>
-      {countries.map((country) => (
-        <div key={country}>{country.name.common}</div>
+      {countries.map((country, i) => (
+        <Country key={country + i} country={country} />
       ))}
     </>
   );
