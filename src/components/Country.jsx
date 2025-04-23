@@ -1,5 +1,28 @@
+import { useEffect, useState } from 'react';
+
+const API_KEY = import.meta.env.VITE_API_KEY;
+
 const Country = ({ country }) => {
-  console.log(country);
+  const [weather, setWeather] = useState(null);
+  const tempInCelsius = (weather?.main?.temp - 273.15).toFixed(1);
+
+  useEffect(() => {
+    const fetchWeather = async () => {
+      try {
+        const response = await fetch(
+          `https://api.openweathermap.org/data/2.5/weather?lat=${country.latlng[0]}&lon=${country.latlng[1]}&appid=${API_KEY}`
+        );
+        const data = await response.json();
+        setWeather(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchWeather();
+  }, []);
+
+  console.log(weather);
+
   return (
     <div className='mt-4'>
       <p>{country.name.common}</p>
@@ -14,6 +37,14 @@ const Country = ({ country }) => {
           ))}
         </ul>
       </div>
+      {weather && (
+        <div className='mt-4'>
+          <p className='text-2xl font-bold'>Weather in {country.capital}</p>
+          <p>{tempInCelsius}°C</p>
+          <img src={weather?.icon} alt='' />
+          <p>Wind Speed: {weather?.wind?.speed} m/s</p>
+        </div>
+      )}
     </div>
   );
 };
