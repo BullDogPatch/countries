@@ -1,3 +1,4 @@
+import CountriesList from './CountriesList';
 import Country from './Country';
 
 const Countries = ({ filteredCountries }) => {
@@ -8,7 +9,7 @@ const Countries = ({ filteredCountries }) => {
     <>
       {length > 1
         ? filteredCountries.map((country, i) => (
-            <Country key={country + i} country={country} />
+            <CountriesList key={country.name.common} country={country} />
           ))
         : length === 1 && <Country country={filteredCountries[0]} />}
     </>
